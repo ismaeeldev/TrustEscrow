@@ -1,0 +1,76 @@
+Use a consistent, production-level fintech design system called "TrustEscrow" across all UI components.
+
+Design Requirements:
+
+1. Visual Style:
+- Clean, modern fintech (inspired by Stripe, Linear, Vercel)
+- Minimal, no clutter
+- High readability and clear hierarchy
+
+2. Colors:
+- Primary (background dark): #0F172A (navy)
+- Secondary (light background): #F8FAFC
+- Accent (success/action): #22C55E (green)
+- Warning: #F59E0B
+- Error: #EF4444
+- Text primary: #0F172A (light mode), #F8FAFC (dark mode)
+- Borders: subtle gray (#E2E8F0)
+
+3. UI Framework:
+- Use ShadCN UI components
+- Use Tailwind CSS utility classes
+- Use rounded-xl or rounded-2xl corners
+- Soft shadows (shadow-md or shadow-lg)
+
+4. Layout Rules:
+- Centered content with max-width (max-w-2xl or max-w-4xl)
+- Proper spacing (gap-4, gap-6, p-6, p-8)
+- Use cards for grouping content
+- Avoid full-width cluttered layouts
+
+5. Components Style:
+- Buttons:
+  - Primary: dark background + white text
+  - Success: green background
+- Badges:
+  - Pending → yellow
+  - Held → blue
+  - Released → green
+- Tables:
+  - Clean, striped or bordered
+- Inputs:
+  - Rounded, clean focus ring
+
+6. Typography:
+- Font weight hierarchy:
+  - Title: text-2xl or text-3xl font-semibold
+  - Section: text-lg font-medium
+  - Body: text-sm or text-base
+- Use clear spacing between sections
+
+7. UX Behavior:
+- Show loading states (spinners or skeletons)
+- Disable buttons during actions
+- Show success/error feedback clearly
+- Prevent double actions (important for payments)
+
+8. Animations:
+- Subtle transitions (hover, button click)
+- Use Tailwind transitions (transition-all duration-200)
+
+9. Page Feel:
+- Professional SaaS product
+- Trust-focused (important for escrow system)
+- No flashy gradients or unnecessary effects
+
+10. Reusability:
+- Build reusable components (Card, StatusBadge, ActionButton)
+- Keep code clean and modular
+
+Important:
+- Always maintain consistency across all pages
+- Do not redesign per page — follow same system everywhere
+- UI should feel like one unified product
+
+Goal:
+Make the app feel like a real fintech product users can trust with money.

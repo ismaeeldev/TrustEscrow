@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  buyer
+  seller
+  admin
+}
+
+enum OrderStatus {
+  INITIATED
+  PAYMENT_PENDING
+  FUNDS_HELD
+  RELEASED
+  FAILED
+}
+
+enum LedgerType {
+  CREDIT
+  DEBIT
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+//
+// 🧾 USERS (Optional but recommended)
+//
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  role      UserRole @default(buyer)
+  stripeAccountId String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  ordersAsSeller Order[] @relation("SellerOrders")
+
+  @@map("users")
+}
+
+//
+// 💳 ORDERS (CORE ENTITY)
+//
+
+model Order {
+  id        String      @id @default(uuid())
+  buyerEmail String
+
+  // Optional seller relation
+  sellerId  String?
+  seller    User?       @relation("SellerOrders", fields: [sellerId], references: [id])
+
+  amount    Int         // in cents
+  currency  String      @default("usd")
+
+  sellerEmail           String?
+  deliveryProof         String?
+  sellerStripeAccountId String?
+
+  status    OrderStatus @default(INITIATED)
+
+  stripeSessionId       String?
+  stripePaymentIntentId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  ledgerEntries LedgerEntry[]
+  transactions  Transaction[]
+
+  @@index([status])
+  @@index([sellerId])
+  @@map("orders")
+}
+
+//
+// 📒 LEDGER (AUDIT SYSTEM)
+//
+
+model LedgerEntry {
+  id          String     @id @default(uuid())
+  orderId     String
+
+  type        LedgerType
+  amount      Int
+  description String?
+
+  createdAt   DateTime   @default(now())
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("ledger_entries")
+}
+
+//
+// 🔁 TRANSACTIONS (STRIPE MAPPING)
+//
+
+model Transaction {
+  id        String            @id @default(uuid())
+  orderId   String
+
+  stripePaymentIntentId String?
+  stripeTransferId      String?
+
+  status    TransactionStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("transactions")
+}

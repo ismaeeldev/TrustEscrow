@@ -1,65 +1,172 @@
-import Image from "next/image";
+import { ShieldCheck, ArrowRight, ShieldIcon, Zap, Globe, Lock, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col min-h-screen bg-[#0F172A] text-white selection:bg-[#22C55E]/30 antialiased overflow-x-hidden">
+      {/* Hero Section */}
+      <header className="relative w-full h-screen flex flex-col items-center justify-center px-4 overflow-hidden border-b border-white/5">
+        {/* Animated Background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#22C55E]/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] animate-pulse [animation-delay:2s]" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 pointer-events-none"></div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <nav className="absolute top-0 w-full max-w-7xl flex items-center justify-between p-8 z-50">
+           <div className="flex items-center space-x-2">
+              <ShieldCheck className="w-8 h-8 text-[#22C55E]" />
+              <span className="text-xl font-bold tracking-tight">TrustEscrow</span>
+           </div>
+           <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-400">
+              <a href="#features" className="hover:text-white transition-all hover:translate-y-[-1px]">Features</a>
+              <a href="#security" className="hover:text-white transition-all hover:translate-y-[-1px]">Security</a>
+              <Link href="/onboard" className="hover:text-white transition-all hover:translate-y-[-1px]">Sellers</Link>
+              <Link href="/terms" className="hover:text-white transition-all hover:translate-y-[-1px]">Terms</Link>
+              <Link href="/admin/login" className="bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/10 text-white transition-all">Admin</Link>
+           </div>
+        </nav>
+
+        <div className="relative z-10 max-w-4xl w-full flex flex-col items-center text-center space-y-8 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+           <div className="inline-flex items-center space-x-2 bg-white/5 backdrop-blur-xl border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-[#22C55E] tracking-widest uppercase mb-4 shadow-xl">
+              <Zap className="w-3.5 h-3.5 fill-current" />
+              <span>Next-Gen Escrow Logic</span>
+           </div>
+           
+           <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] text-white drop-shadow-2xl">
+              Secure Payments <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#22C55E] via-[#4ade80] to-emerald-400">
+                 Without Friction.
+              </span>
+           </h1>
+           
+           <p className="max-w-xl text-lg md:text-xl text-slate-400 font-medium leading-relaxed">
+              The world's most secure hold-and-release infrastructure for online transactions. 
+              Protecting Buyers and Sellers with immutable audit trails.
+           </p>
+
+           <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full justify-center">
+              <Button asChild className="h-16 px-10 bg-[#22C55E] hover:bg-[#22C55E] text-slate-900 font-black rounded-2xl shadow-2xl shadow-[#22C55E]/20 transition-all text-lg group hover:translate-y-[-4px] hover:shadow-[#22C55E]/40 border-0">
+                <Link href="/admin/orders">
+                   <span>Access Dashboard</span>
+                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-16 px-10 bg-white/5 backdrop-blur-xl border-white/10 text-white hover:bg-white/10 hover:text-white font-bold rounded-2xl transition-all text-lg group hover:translate-y-[-4px]">
+                <Link href="/onboard">
+                   <Globe className="w-5 h-5 mr-2 opacity-60 group-hover:rotate-12 transition-transform" />
+                   <span>Join as Seller</span>
+                </Link>
+              </Button>
+           </div>
         </div>
-      </main>
+
+        <div className="absolute bottom-12 animate-bounce opacity-20">
+           <div className="w-1 h-12 bg-gradient-to-b from-white to-transparent rounded-full" />
+        </div>
+      </header>
+
+      {/* Trust Section */}
+      <section id="features" className="py-32 px-4 relative overflow-hidden">
+         <div className="max-w-7xl mx-auto">
+            <div className="text-center space-y-4 mb-20 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+               <h2 className="text-4xl md:text-5xl font-black tracking-tight">Built for Total Security</h2>
+               <p className="max-w-2xl mx-auto text-slate-400 font-medium text-lg">
+                  Every transaction is backed by a multi-layered verification process and automated blockchain-inspired ledger entries.
+               </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               {[
+                  {
+                     title: "Funds Held",
+                     desc: "Payments are captured via Stripe and held in our secure escrow vault until delivery is confirmed.",
+                     icon: Lock,
+                     color: "text-blue-400"
+                  },
+                  {
+                     title: "Proof Validation",
+                     desc: "Sellers must provide verified delivery proof (tracking, file hash, or service logs) for admin review.",
+                     icon: ShieldIcon,
+                     color: "text-[#22C55E]"
+                  },
+                  {
+                     title: "Instant Release",
+                     desc: "Once validated, funds are instantly transferred to the seller's connected account via Stripe Connect.",
+                     icon: Zap,
+                     color: "text-amber-400"
+                  }
+               ].map((feature, i) => (
+                  <div key={i} className="group bg-white/5 backdrop-blur-3xl border border-white/10 p-10 rounded-[40px] hover:bg-white/[0.08] transition-all hover:-translate-y-2 duration-500">
+                     <div className={`w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${feature.color}`}>
+                        <feature.icon className="w-8 h-8" />
+                     </div>
+                     <h3 className="text-2xl font-black mb-4">{feature.title}</h3>
+                     <p className="text-slate-400 font-medium leading-relaxed">{feature.desc}</p>
+                  </div>
+               ))}
+            </div>
+         </div>
+      </section>
+
+      {/* Verification Steps Section */}
+      <section id="security" className="py-32 bg-white/5 border-y border-white/5">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="bg-[#0F172A] border border-white/10 rounded-[60px] p-12 md:p-24 shadow-3xl text-center flex flex-col items-center space-y-12">
+            <div className="w-24 h-24 bg-[#22C55E]/20 text-[#22C55E] rounded-full flex items-center justify-center shadow-lg animate-pulse">
+               <ShieldCheck className="w-12 h-12" />
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter">Zero Fraud Tolerance.</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-left w-full max-w-2xl px-4">
+              {[
+                "End-to-End Encryption",
+                "Automated Audit Trail",
+                "Manual Admin Verification",
+                "Stripe-Powered Compliance",
+                "Immutable Ledger Logs",
+                "Multi-Currency Support"
+              ].map((text, i) => (
+                <div key={i} className="flex items-center space-x-3 group">
+                   <CheckCircle className="w-5 h-5 text-[#22C55E] group-hover:scale-125 transition-transform" />
+                   <span className="font-bold text-slate-300">{text}</span>
+                </div>
+              ))}
+            </div>
+
+            <Button asChild className="h-16 px-12 bg-white text-slate-950 hover:bg-white hover:text-slate-950 font-black rounded-2xl transition-all shadow-xl hover:translate-y-[-4px] hover:shadow-white/20 border-0">
+               <Link href="/onboard">Start Your First Escrow Order</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-20 px-8 border-t border-white/5">
+         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
+            <div className="space-y-4 max-w-sm">
+               <div className="flex items-center space-x-2">
+                  <ShieldCheck className="w-6 h-6 text-[#22C55E]" />
+                  <span className="text-lg font-bold">TrustEscrow</span>
+               </div>
+               <p className="text-sm text-slate-500 font-medium font-mono leading-relaxed">
+                  Advanced financial infrastructure for modern digital commerce. Built on the principle of maximum trust through immutable logic.
+               </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 text-sm font-bold text-slate-500 uppercase tracking-widest">
+               <Link href="/admin/orders" className="hover:text-white transition-colors">Admin Dashboard</Link>
+               <Link href="/onboard" className="hover:text-white transition-colors">Seller Portal</Link>
+               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+               <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+            </div>
+
+            <div className="text-slate-600 text-[10px] font-black tracking-[0.4em] uppercase">
+               &copy; 2026 TrustEscrow Systems Logic
+            </div>
+         </div>
+      </footer>
     </div>
   );
 }
