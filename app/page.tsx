@@ -143,9 +143,11 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-20 px-8 border-t border-white/5">
-         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
-            <div className="space-y-4 max-w-sm">
+      <footer className="py-20 px-8 border-t border-white/5 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
+         
+         <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
+            <div className="space-y-6 max-w-sm">
                <div className="flex items-center space-x-2">
                   <ShieldCheck className="w-6 h-6 text-[#22C55E]" />
                   <span className="text-lg font-bold">TrustEscrow</span>
@@ -153,17 +155,35 @@ export default function Home() {
                <p className="text-sm text-slate-500 font-medium font-mono leading-relaxed">
                   Advanced financial infrastructure for modern digital commerce. Built on the principle of maximum trust through immutable logic.
                </p>
+               <div className="flex items-center justify-center md:justify-start gap-3">
+                 <div className="flex items-center gap-2 px-3 py-1 bg-[#22C55E]/10 border border-[#22C55E]/20 rounded-full">
+                   <div className="w-1.5 h-1.5 bg-[#22C55E] rounded-full animate-pulse" />
+                   <span className="text-[10px] font-black text-[#22C55E] uppercase tracking-widest">Protocol Nominal</span>
+                 </div>
+                 <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                   <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">v2.1.4-Stable</span>
+                 </div>
+               </div>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 text-sm font-bold text-slate-500 uppercase tracking-widest">
-               <Link href="/admin/orders" className="hover:text-white transition-colors">Admin Dashboard</Link>
+               <Link href="/admin/orders" className="hover:text-white transition-colors group flex items-center gap-2">
+                 <span>Forge Ledger</span>
+                 <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+               </Link>
                <Link href="/onboard" className="hover:text-white transition-colors">Seller Portal</Link>
-               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-               <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Privacy</Link>
+               <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
             </div>
 
-            <div className="text-slate-600 text-[10px] font-black tracking-[0.4em] uppercase">
-               &copy; 2026 TrustEscrow Systems Logic
+            <div className="space-y-4 text-center md:text-right">
+              <div className="text-slate-600 text-[10px] font-black tracking-[0.4em] uppercase">
+                 &copy; 2026 TrustEscrow Systems Logic
+              </div>
+              <div className="flex items-center justify-center md:justify-end gap-1 px-4 py-2 bg-white/5 border border-white/10 rounded-xl opacity-40">
+                <ShieldCheck className="w-3 h-3 text-[#22C55E]" />
+                <span className="text-[9px] font-black text-white uppercase tracking-[0.2em]">Certified Production Environment</span>
+              </div>
             </div>
          </div>
       </footer>

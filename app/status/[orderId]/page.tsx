@@ -1,8 +1,9 @@
 import { orderRepo } from "@/repositories/order.repo";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Clock, ShieldCheck, CreditCard, ArrowRightCircle } from "lucide-react";
+import { CheckCircle2, Clock, ShieldCheck, CreditCard } from "lucide-react";
 import { notFound } from "next/navigation";
+import { StatusAutoRefresh } from "./StatusAutoRefresh";
 
 interface StatusPageProps {
   params: Promise<{ orderId: string }>;
@@ -46,7 +47,10 @@ export default async function StatusPage({ params, searchParams }: StatusPagePro
   const currentStatusLabel = order.status.replace("_", " ");
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 antialiased">
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 antialiased selection:bg-[#22C55E]/20">
+      {/* Auto-Refresh Logic */}
+      <StatusAutoRefresh status={order.status} />
+
       <div className="w-full max-w-lg">
         {/* Brand Header */}
         <div className="flex items-center justify-center gap-2 mb-8">

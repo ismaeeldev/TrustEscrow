@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛡️ TrustEscrow: The Sovereign Escrow Forge
 
-## Getting Started
+**Developed by Muhammad Ismaeel**
 
-First, run the development server:
+TrustEscrow is a premium, high-fidelity Escrow infrastructure built for modern digital commerce. It provides a secure "Hold-and-Release" logic that protects both buyers and sellers through an immutable ledger and a dedicated Auditor Control Center.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 💎 Project Objectives
+
+*   **Maximum Trust**: Funds are captured via Stripe and held in a secure platform balance until delivery is verified.
+*   **Auditor Oversight**: A proprietary "Order Forge" dashboard allows administrators to examine transactions and authorize releases with precision.
+*   **Immutable Ledger**: Every financial movement (Credit/Debit) is synchronized to a Neon Serverless PostgreSQL database with detailed audit trails.
+*   **Real-time Intelligence**: High-fidelity UI with auto-syncing status trackers and performance-optimized skeletons.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Core**: Next.js 16 (App Router)
+- **Database**: Prisma ORM with Neon (Serverless Postgres)
+- **Payments**: Stripe Connect (Standard Onboarding) & Checkout Sessions
+- **UI/UX**: Tailwind CSS, Shadcn UI, Framer Motion (Animations)
+- **Monitoring**: Redundant Metadata Tagging & Webhook Synchronization
+
+---
+
+## 🚀 Key Features
+
+### 🏢 The Order Forge (Admin Dashboard)
+A bento-grid inspired dashboard for administrators to orchestrate secure escrow transactions.
+- **Transaction Ledger**: Center-aligned, responsive data grid.
+- **Sovereign Sync**: Real-time revalidation of all ledger states.
+- **Intelligence Stats**: Live tracking of Page Volume, Active Status, and Settlement Rates.
+
+### 🛡️ Auditor Control Center (Order Detail)
+A high-fidelity interface for examining individual transactions.
+- **Verification Module**: Direct links to delivery proof with high-attention alerts for missing metadata.
+- **Authorization Hub**: confirm fund release with glowing feedback and safety confirmation loops.
+
+### 🔄 Status Tracker (Buyer View)
+A client-side polling system that ensures the UI reflects the real-time state of the transaction immediately after payment success.
+
+### 🤝 Seller Onboarding
+A specialized portal for sellers to link their payout accounts via Stripe Connect.
+
+---
+
+## 📝 Configuration
+
+Ensure the following environment variables are set in `.env`:
+
+```env
+DATABASE_URL="your-neon-postgres-url"
+STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Install dependencies
+npm install
 
-## Learn More
+# Push database schema
+npx prisma db push
 
-To learn more about Next.js, take a look at the following resources:
+# Launch the Forge
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🏛️ Developed by Muhammad Ismaeel
+*Focusing on Premium UI, Immutable Logic, and Stable Financial Infrastructure.*
