@@ -86,16 +86,20 @@ function SuccessContent() {
           <div className="h-px bg-white/5 w-full" />
 
           <div className="space-y-3">
-            <Button asChild className="w-full h-12 bg-white text-slate-950 hover:bg-slate-100 font-bold rounded-xl space-x-2 transition-all">
-              <Link href="/admin/orders">
-                 <span>Go to Orders</span>
-                 <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
+            {sellerId && (
+              <Button asChild className="w-full h-12 !bg-white !text-slate-950 hover:!bg-slate-100 font-bold rounded-xl space-x-2 transition-all shadow-xl shadow-white/5">
+                <a href={`https://dashboard.stripe.com/${sellerId}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+                   <span>Access Stripe Dashboard</span>
+                   <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
+              </Button>
+            )}
             
-            <Button variant="ghost" className="w-full h-12 text-slate-400 hover:text-white hover:bg-white/5 font-bold rounded-xl space-x-2">
-               <ExternalLink className="w-4 h-4" />
-               <span>Stripe Dashboard</span>
+            <Button asChild variant="ghost" className="w-full h-12 !text-slate-400 hover:!text-white hover:!bg-white/5 font-bold rounded-xl space-x-2 transition-all">
+               <Link href="/" className="flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 mr-2" />
+                  <span>Back to Home</span>
+               </Link>
             </Button>
           </div>
         </div>

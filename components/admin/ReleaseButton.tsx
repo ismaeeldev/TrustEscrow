@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Loader2, AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
+import { ShieldCheck, Loader2, AlertTriangle, CheckCircle2, XCircle, BookOpen } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -51,7 +52,7 @@ export function ReleaseButton({ orderId }: ReleaseButtonProps) {
     } catch (error: any) {
       setErrorMessage(error.message);
       setStatus("error");
-      toast.error(error.message);
+      toast.error("Stripe Transfer Failed. See details in modal.");
     }
   };
 
@@ -78,7 +79,7 @@ export function ReleaseButton({ orderId }: ReleaseButtonProps) {
           {status === 'loading' ? "Processing..." : "Release Funds"}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="rounded-2xl max-w-md border-0 shadow-2xl overflow-hidden p-0">
+      <AlertDialogContent className="rounded-[2rem] w-[95vw] max-w-md md:max-w-2xl border-0 shadow-2xl overflow-hidden p-0 transition-all duration-500">
         
         {/* SUCCESS STATE */}
         {status === "success" ? (
@@ -115,11 +116,25 @@ export function ReleaseButton({ orderId }: ReleaseButtonProps) {
             <div className="p-6 space-y-4 bg-white">
               <AlertDialogDescription className="text-slate-500 text-base text-center leading-relaxed">
                 {status === "error" ? (
-                  <span className="text-red-600 font-medium">
-                    {errorMessage}
-                    <br/><br/>
-                    <span className="text-slate-500 text-sm">Please resolve this issue in Stripe and try again.</span>
-                  </span>
+                  <div className="space-y-6">
+                    <div className="flex flex-col items-center gap-2">
+                      <p className="text-red-600 font-bold text-lg">Transaction Failed</p>
+                      <p className="text-slate-500 text-sm">
+                        Stripe returned a capability restriction for this account.
+                      </p>
+                    </div>
+                    
+                    <Link 
+                      href={`/admin/orders/${orderId}/error`}
+                      onClick={() => {
+                        localStorage.setItem(`stripe_error_${orderId}`, errorMessage);
+                      }}
+                      className="flex items-center justify-center gap-2 w-full py-4 !bg-slate-50 hover:!bg-slate-100 rounded-2xl !text-slate-900 text-xs font-black uppercase tracking-widest border border-slate-200 transition-all group"
+                    >
+                      <BookOpen className="w-4 h-4 text-blue-500 group-hover:scale-110 transition-transform" />
+                      <span>View Detailed Diagnostic</span>
+                    </Link>
+                  </div>
                 ) : (
                   <span>
                     You are about to release funds to the seller. Please ensure you have reviewed the <strong>Delivery Proof</strong>. 
@@ -140,7 +155,7 @@ export function ReleaseButton({ orderId }: ReleaseButtonProps) {
                   onClick={handleRelease}
                   disabled={status === "loading"}
                   className={`w-full rounded-xl text-white font-bold h-12 m-0 ${
-                    status === 'error' ? 'bg-slate-900 hover:bg-slate-800' : 'bg-[#22C55E] hover:bg-[#1DA850] shadow-lg shadow-[#22C55E]/10'
+                    status === 'error' ? '!bg-[#0F172A] hover:!bg-black' : '!bg-[#22C55E] hover:!bg-[#1DA850] shadow-lg shadow-[#22C55E]/10'
                   }`}
                 >
                   {status === "loading" ? (

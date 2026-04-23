@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ShieldCheck, Loader2, ArrowRight, Wallet, BadgeCheck } from "lucide-react";
 import { toast } from "sonner";
+import Navbar from "@/components/Navbar";
 
 export default function OnboardPage() {
   const [email, setEmail] = useState("");
@@ -37,6 +38,7 @@ export default function OnboardPage() {
 
   return (
     <div className="min-h-screen bg-[#0F172A] relative flex flex-col items-center justify-center p-4 antialiased overflow-hidden">
+      <Navbar />
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-1/4 -left-1/4 w-[600px] h-[600px] bg-[#22C55E]/5 rounded-full blur-[120px]" />
@@ -100,7 +102,7 @@ export default function OnboardPage() {
             <Button 
               type="submit" 
               disabled={loading}
-              className="w-full h-14 bg-[#22C55E] hover:bg-[#1DA850] text-white font-bold rounded-xl shadow-lg shadow-[#22C55E]/20 transition-all active:scale-[0.98] text-lg group"
+              className="w-full h-14 !bg-[#22C55E] hover:!bg-[#1DA850] !text-white font-bold rounded-xl shadow-lg shadow-[#22C55E]/20 transition-all active:scale-[0.98] text-lg group"
             >
               {loading ? (
                 <Loader2 className="w-6 h-6 animate-spin" />

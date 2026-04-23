@@ -52,9 +52,10 @@ export class EscrowService extends BaseService {
           });
           transferId = transfer.id;
           logger.info("Stripe transfer successful", { transferId, accountId: order.sellerStripeAccountId });
-        } catch (stripeError) {
+        } catch (stripeError: any) {
           logger.error("Stripe transfer failed", stripeError);
-          throw new Error("Failed to disburse funds to seller. Stripe transfer failed.");
+          // Pass the real Stripe error message to the frontend
+          throw new Error(`Stripe Error: ${stripeError?.message || "Transfer failed"}`);
         }
       } else {
         logger.warn("Order missing sellerStripeAccountId, falling back to mock transfer for development", { orderId });

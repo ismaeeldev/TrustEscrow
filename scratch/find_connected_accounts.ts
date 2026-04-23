@@ -3,11 +3,15 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const orderId = '1fa1308a-582e-4eb7-b6a6-170efe05fd8f';
-  const order = await prisma.order.findUnique({
-    where: { id: orderId }
+  const orders = await prisma.order.findMany({
+    where: {
+      sellerStripeAccountId: {
+        not: null
+      }
+    },
+    take: 5
   });
-  console.log(JSON.stringify(order, null, 2));
+  console.log(JSON.stringify(orders, null, 2));
 }
 
 main()
