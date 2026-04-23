@@ -78,7 +78,7 @@ export default function OrderErrorPage() {
               </div>
               <div className="space-y-1">
                 <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">System Diagnostic</h1>
-                <p className="text-slate-500 font-medium">Stripe Transfer Failure Log for ID: <span className="text-[#0F172A] font-bold">#{orderId.toString().slice(0, 8)}</span></p>
+                <p className="text-slate-500 font-medium">Stripe Transfer Failure Log for ID: <span className="text-[#0F172A] font-bold">#{orderId?.toString().slice(0, 8) || "..."}</span></p>
               </div>
             </div>
             
