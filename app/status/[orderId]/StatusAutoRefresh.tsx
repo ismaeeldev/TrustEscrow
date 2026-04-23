@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { OrderStatus } from "@prisma/client";
 
 interface StatusAutoRefreshProps {
   status: string;
@@ -13,7 +12,7 @@ export function StatusAutoRefresh({ status }: StatusAutoRefreshProps) {
 
   useEffect(() => {
     // Only poll if the status is INITIATED
-    if (status !== OrderStatus.INITIATED) return;
+    if (status !== "INITIATED") return;
 
     const intervalId = setInterval(() => {
       // Trigger a re-fetch of the current page data
