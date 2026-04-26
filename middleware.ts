@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function proxy(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  console.log(`[Middleware] Requesting: ${pathname}`);
 
   // 1. Define paths that need protection
   if (pathname.startsWith("/admin") || pathname === "/api/release-funds") {
     // 2. Allow access to the login page itself
-    if (pathname === "/admin/login") {
+    if (pathname === "/admin/login" || pathname === "/admin/login/") {
       return NextResponse.next();
     }
 

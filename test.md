@@ -42,7 +42,8 @@ Simulate a marketplace bot creating an escrow order:
 **Windows (PowerShell):**
 ```powershell
 # Run this to get the FULL Checkout URL immediately:
-(Invoke-RestMethod -Uri "http://localhost:3000/api/orders/create" -Method Post -Headers @{"Content-Type"="application/json"} -Body (@{ buyer_email="buyer@example.com"; amount=8500; seller_email="seller-test@example.com"; seller_stripe_account_id="PASTE_YOUR_ACCT_ID_HERE" } | ConvertTo-Json)).checkout_url
+(Invoke-RestMethod -Uri "http://localhost:3000/api/orders/create" -Method Post -Headers @{"Content-Type"="application/json"} -Body (@{ buyer_email="buyer@example.com"; amount=8500; seller_email="seller-test@example.com"; seller_stripe_account_id="acct_1TNcoXLNkHiM1da5
+" } | ConvertTo-Json)).checkout_url
 ```
 
 **Mac/Linux (Bash):**
