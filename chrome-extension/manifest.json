@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "TrustEscrow Anywhere",
+  "version": "1.0.0",
+  "description": "Secure any purchase on any website with TrustEscrow hold-and-release.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "action": {
+    "default_title": "Open TrustEscrow Panel"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["sidepanel.html", "sidepanel.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

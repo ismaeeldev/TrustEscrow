@@ -28,6 +28,15 @@ export class OrderRepository {
     });
   }
 
+  async updateStripePaymentIntent(orderId: string, paymentIntentId: string) {
+    return await db.order.update({
+      where: { id: orderId },
+      data: {
+        stripePaymentIntentId: paymentIntentId,
+      },
+    });
+  }
+
   async findById(id: string) {
     return await db.order.findUnique({
       where: { id },

@@ -1,0 +1,22 @@
+/**
+ * TrustEscrow Injected Styles
+ */
+
+.trust-escrow-btn {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.trust-escrow-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.trust-escrow-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
