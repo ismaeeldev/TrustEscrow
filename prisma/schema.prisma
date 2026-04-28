@@ -66,6 +66,8 @@ model Order {
   sellerEmail           String?
   deliveryProof         String?
   sellerStripeAccountId String?
+  storeUrl              String?      @db.Text
+  productName           String?      @db.Text
 
   status    OrderStatus @default(INITIATED)
 

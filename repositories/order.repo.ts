@@ -2,21 +2,38 @@ import { db } from "@/lib/db";
 import { OrderStatus } from "@prisma/client";
 
 export class OrderRepository {
-  async createOrder(data: { buyerEmail: string; amount: number; sellerEmail?: string; sellerStripeAccountId?: string }) {
-    return await db.order.create({
-      data: {
-        buyerEmail: data.buyerEmail,
-        amount: data.amount,
-        sellerEmail: data.sellerEmail,
-        sellerStripeAccountId: data.sellerStripeAccountId,
-        status: OrderStatus.INITIATED,
-        currency: "usd", // Defaulting to usd as per schema
-      },
-      select: {
-        id: true,
-        status: true,
-      },
-    });
+  async createOrder(data: { 
+    buyerEmail: string; 
+    amount: number; 
+    sellerEmail?: string; 
+    sellerStripeAccountId?: string;
+    storeUrl?: string;
+    productName?: string;
+  }) {
+    try {
+      console.log("🛠️ OrderRepo: Attempting to create order in Prisma...", data.buyerEmail);
+      const order = await db.order.create({
+        data: {
+          buyerEmail: data.buyerEmail,
+          amount: data.amount,
+          sellerEmail: data.sellerEmail,
+          sellerStripeAccountId: data.sellerStripeAccountId,
+          storeUrl: data.storeUrl,
+          productName: data.productName,
+          status: OrderStatus.INITIATED,
+          currency: "usd", // Defaulting to usd as per schema
+        },
+        select: {
+          id: true,
+          status: true,
+        },
+      });
+      console.log("✅ OrderRepo: Order created successfully", order.id);
+      return order;
+    } catch (error) {
+      console.error("❌ OrderRepo: Error in createOrder", error);
+      throw error;
+    }
   }
 
   async updateStripeSession(orderId: string, sessionId: string) {

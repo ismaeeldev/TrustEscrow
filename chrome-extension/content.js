@@ -9,17 +9,18 @@
   console.log("🛡️ TrustEscrow Anywhere Active");
 
   // 1. Configuration & Regex
-  const PRICE_REGEX = /(\$|USD|£|€)\s?(\d+[\.,]\d{2})/g;
+  const PRICE_REGEX = /(\$|USD|£|€|¥|₹)\s?(\d+([\.,]\d{2,3})*([\.,]\d{2})?)/g;
   let detectorInterval = null;
 
   /**
    * Scans the page for prices and product information.
    */
   function scanForProducts() {
-    const bodyText = document.body.innerText;
-    const matches = [...bodyText.matchAll(PRICE_REGEX)];
+    const hasPrice = document.body.innerText.match(PRICE_REGEX);
+    const hasSchema = !!document.querySelector('script[type="application/ld+json"]');
+    const hasProductMeta = !!document.querySelector('meta[property="og:type"][content="product"]');
     
-    if (matches.length > 0) {
+    if (hasPrice || hasSchema || hasProductMeta) {
       injectEscrowButton();
     }
   }
@@ -47,7 +48,12 @@
       '.add_to_cart_button',
       '[aria-label*="Add to cart" i]',
       '[aria-label*="Buy now" i]',
-      '[title*="Add to cart" i]'
+      '[title*="Add to cart" i]',
+      '.sqs-add-to-cart-button', // Squarespace
+      '.wix-add-to-cart', // Wix
+      '.vtex-add-to-cart-button', // VTEX
+      '.btn-add-to-cart', // General
+      '.Button-AddToCart' // General
     ];
 
     let targetButtons = manualTargets || [];
@@ -138,12 +144,7 @@
         
         escrowBtn.textContent = '⌛ Opening...';
         
-        const productInfo = {
-          title: document.title,
-          price: detectPriceNearElement(btn),
-          url: window.location.href,
-          image: detectProductImage()
-        };
+        const productInfo = detectComprehensiveProductInfo(btn);
 
         console.log("🛡️ TrustEscrow: Product Info detected:", productInfo);
 
@@ -237,9 +238,102 @@
   }
 
   /**
+   * Comprehensive product detection logic.
+   */
+  function detectComprehensiveProductInfo(anchorBtn) {
+    let info = {
+      title: document.title,
+      price: "$0.00",
+      url: window.location.href,
+      image: ""
+    };
+
+    // 1. Try JSON-LD (Schema.org)
+    try {
+      const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+      for (const script of scripts) {
+        const data = JSON.parse(script.innerText);
+        const product = findProductInJsonLd(data);
+        if (product) {
+          if (product.name) info.title = product.name;
+          if (product.image) info.image = Array.isArray(product.image) ? product.image[0] : product.image;
+          if (product.offers) {
+            const offer = Array.isArray(product.offers) ? product.offers[0] : product.offers;
+            if (offer.price) info.price = `${offer.priceCurrency === 'USD' ? '$' : (offer.priceCurrency || '')}${offer.price}`;
+          }
+          if (info.price !== "$0.00") break;
+        }
+      }
+    } catch (e) {}
+
+    // 2. Try OpenGraph
+    if (info.price === "$0.00" || !info.image) {
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      const ogImg = document.querySelector('meta[property="og:image"]');
+      const ogPrice = document.querySelector('meta[property="product:price:amount"]') || 
+                      document.querySelector('meta[property="og:price:amount"]') ||
+                      document.querySelector('meta[name="twitter:data1"]'); // Common for prices
+      const ogCurrency = document.querySelector('meta[property="product:price:currency"]') ||
+                         document.querySelector('meta[property="og:price:currency"]');
+
+      if (ogTitle) info.title = ogTitle.content;
+      if (ogImg) info.image = ogImg.content;
+      if (ogPrice) {
+        const amount = ogPrice.content || ogPrice.value;
+        if (amount && !isNaN(parseFloat(amount.replace(/[^0-9\.]/g, '')))) {
+          const symbol = ogCurrency ? (ogCurrency.content === 'USD' ? '$' : ogCurrency.content) : '$';
+          info.price = `${symbol}${amount}`;
+        }
+      }
+    }
+
+    // 3. Fallback to Heuristics
+    if (info.price === "$0.00") info.price = detectPriceNearElement(anchorBtn);
+    if (!info.image) info.image = detectProductImage();
+
+    return info;
+  }
+
+  function findProductInJsonLd(obj) {
+    if (obj['@type'] === 'Product') return obj;
+    if (obj['@graph'] && Array.isArray(obj['@graph'])) {
+      return obj['@graph'].find(item => item['@type'] === 'Product');
+    }
+    return null;
+  }
+
+  /**
    * Specifically detects the price on the page, with heavy bias for Amazon.
    */
   function detectPriceNearElement(el) {
+    // Check common price containers first
+    const commonSelectors = [
+      '[itemprop="price"]',
+      '.price',
+      '#price',
+      '.amount',
+      '.product-price',
+      '.current-price',
+      '.price-current',
+      '.special-price',
+      '.price-wrapper',
+      '[class*="price"]',
+      '[id*="price"]'
+    ];
+
+    for (const selector of commonSelectors) {
+      try {
+        const elements = document.querySelectorAll(selector);
+        for (const found of elements) {
+          const text = found.innerText.trim();
+          if (text.match(PRICE_REGEX)) return text;
+          // If no symbol but looks like a number and in a "price" element
+          const numMatch = text.match(/\d+[\.,]\d{2}/);
+          if (numMatch) return `$${numMatch[0]}`; 
+        }
+      } catch (e) {}
+    }
+
     // 1. Check Amazon specific price elements
     const amazonPrice = document.querySelector('.a-price .a-offscreen') || 
                         document.querySelector('#priceblock_ourprice') || 
@@ -305,14 +399,17 @@
     
     const fixLink = document.createElement('span');
     fixLink.id = 'force-inject-link';
-    fixLink.textContent = '[Fix Button]';
+    fixLink.textContent = '[Manual Sync]';
     Object.assign(fixLink.style, {
       marginLeft: '10px',
       textDecoration: 'underline',
       cursor: 'pointer',
       color: '#fff',
-      fontSize: '10px',
-      opacity: '0.8'
+      fontSize: '11px',
+      opacity: '0.9',
+      padding: '2px 6px',
+      background: 'rgba(255,255,255,0.1)',
+      borderRadius: '4px'
     });
 
     badge.appendChild(textSpan);

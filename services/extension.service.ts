@@ -13,31 +13,37 @@ export class ExtensionService extends BaseService {
     buyer_email: string; 
     amount: number; 
     store_url: string; 
-    product_name: string 
+    product_name: string;
+    payment_method_id: string;
   }) {
     try {
       logger.info("ExtensionService: Initiating proxy order hold", payload);
 
       // 1. Create Internal Order Record
+      logger.info("ExtensionService: Step 1 - Creating order record in DB");
       const order = await orderRepo.createOrder({
         buyerEmail: payload.buyer_email,
         amount: payload.amount,
         sellerEmail: "proxy@trustescrow.internal", // Internal indicator for proxy/extension orders
+        storeUrl: payload.store_url,
+        productName: payload.product_name
       });
+      logger.info("ExtensionService: Order record created", { order_id: order.id });
 
       // 2. Create and Confirm Payment Intent with Manual Capture (Simulated Hold)
+      logger.info("ExtensionService: Step 2 - Creating Stripe Payment Intent");
       const paymentIntent = await stripe.paymentIntents.create({
         amount: payload.amount,
         currency: "usd",
         payment_method_types: ["card"],
         capture_method: "manual", // CRITICAL: This holds the funds without capturing
-        payment_method: "pm_card_visa", // Use test card for simulation
+        payment_method: payload.payment_method_id, 
         confirm: true, // Confirm immediately to simulate buyer payment
         return_url: "http://localhost:3000/api/extension/callback", // Required for confirmation
         metadata: {
           order_id: order.id,
-          store_url: payload.store_url,
-          product_name: payload.product_name,
+          store_url: payload.store_url.substring(0, 490), // Truncate to fit Stripe 500 char limit
+          product_name: payload.product_name.substring(0, 490),
           type: "proxy_escrow_hold"
         },
       });
